@@ -24,14 +24,14 @@ export default function Hero() {
             <div className="max-w-2xl">
               {/* 메인 헤딩 */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-white">
-                당신의 다음
-                <br />
-                <span className="text-cyan-400">관심사</span>를 발견하세요
+                <span className="text-cyan-400">
+                  팝업스토어를 검색해보세요!
+                </span>
               </h2>
 
               {/* 서브텍스트 */}
               <p className="text-xl sm:text-2xl text-gray-200 mb-8 leading-relaxed">
-                순간을 정의하는 큐레이션된 팝업 경험
+                특별한 순간을 만나는 팝업 경험을 찾아보세요
               </p>
 
               {/* 배지들 */}
