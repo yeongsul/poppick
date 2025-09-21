@@ -20,28 +20,11 @@ export default function CartPage() {
   // 픽업 가능한 시간 슬롯 생성 (30분 간격)
   const generateTimeSlots = useCallback(() => {
     if (!store) {
-      // 임시로 기본 시간 슬롯 제공
       return [
-        '10:00',
-        '10:30',
-        '11:00',
-        '11:30',
-        '12:00',
-        '12:30',
-        '13:00',
-        '13:30',
-        '14:00',
-        '14:30',
-        '15:00',
-        '15:30',
-        '16:00',
-        '16:30',
-        '17:00',
-        '17:30',
-        '18:00',
-        '18:30',
-        '19:00',
-        '19:30',
+        '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+        '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
+        '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
+        '19:00', '19:30'
       ];
     }
 
@@ -62,18 +45,6 @@ export default function CartPage() {
       currentTime = currentHour * 60 + currentMinute; // 분 단위로 변환
     }
 
-    // 디버깅 로그 추가
-    console.log('시간 슬롯 생성 디버그:', {
-      pickupDate,
-      isToday,
-      currentTime: isToday
-        ? `${Math.floor(currentTime / 60)}:${(currentTime % 60)
-            .toString()
-            .padStart(2, '0')}`
-        : 'N/A',
-      currentTimeInMinutes: isToday ? currentTime : 'N/A',
-      operatingHours: `${store.operatingHours.start} - ${store.operatingHours.end}`,
-    });
 
     for (let hour = start; hour < end; hour++) {
       // 00분 슬롯
@@ -89,14 +60,12 @@ export default function CartPage() {
       }
     }
 
-    console.log('생성된 시간 슬롯들:', slots);
     return slots;
   }, [store, pickupDate]);
 
   // 픽업 가능한 날짜 생성 (현재 날짜 기준으로 동적 생성)
   const generateAvailableDates = useCallback(() => {
     if (!store) {
-      // 임시로 기본 날짜 제공 (오늘부터 7일간)
       const dates = [];
       const today = new Date();
       for (let i = 0; i < 7; i++) {
@@ -125,13 +94,6 @@ export default function CartPage() {
       availableEndDate = endDate;
     }
 
-    // 디버깅 로그 추가
-    console.log('날짜 생성 디버그:', {
-      today: today.toISOString().split('T')[0],
-      storeEndDate: endDate.toISOString().split('T')[0],
-      isStoreEnded,
-      availableEndDate: availableEndDate.toISOString().split('T')[0],
-    });
 
     // 오늘부터 availableEndDate까지 날짜 생성
     for (
@@ -142,28 +104,9 @@ export default function CartPage() {
       dates.push(d.toISOString().split('T')[0]);
     }
 
-    console.log('생성된 날짜들:', dates);
     return dates;
   }, [store]);
 
-  // 디버깅용 로그 (useEffect로 감싸서 렌더링 중 오류 방지)
-  useEffect(() => {
-    console.log('=== 장바구니 주문 페이지 디버그 ===');
-    console.log('팝업스토어:', store);
-    console.log('팝업스토어 ID:', cart.popupStoreId);
-    console.log('장바구니 아이템 수:', cart.items.length);
-    console.log('장바구니 아이템들:', cart.items);
-    console.log('선택된 픽업 날짜:', pickupDate);
-
-    const availableDates = generateAvailableDates();
-    const availableTimes = generateTimeSlots();
-
-    console.log('사용 가능한 날짜 개수:', availableDates.length);
-    console.log('사용 가능한 날짜:', availableDates);
-    console.log('사용 가능한 시간 개수:', availableTimes.length);
-    console.log('사용 가능한 시간:', availableTimes);
-    console.log('===============================');
-  }, [store, cart.items, cart.popupStoreId, pickupDate, generateAvailableDates, generateTimeSlots]);
 
   // 날짜가 변경될 때 시간 선택 초기화
   useEffect(() => {
@@ -190,7 +133,6 @@ export default function CartPage() {
       setOrderId(result.id);
       cart.clear();
     } catch (error) {
-      console.error('주문 실패:', error);
       alert('주문에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setIsOrdering(false);
@@ -357,19 +299,15 @@ export default function CartPage() {
               className="w-full border rounded-xl px-3 py-2"
             >
               <option value="">날짜를 선택하세요</option>
-              {(() => {
-                const dates = generateAvailableDates();
-                console.log('렌더링 중 날짜 옵션 생성:', dates);
-                return dates.map((date) => (
-                  <option key={date} value={date}>
-                    {new Date(date).toLocaleDateString('ko-KR', {
-                      month: 'long',
-                      day: 'numeric',
-                      weekday: 'short',
-                    })}
-                  </option>
-                ));
-              })()}
+              {generateAvailableDates().map((date) => (
+                <option key={date} value={date}>
+                  {new Date(date).toLocaleDateString('ko-KR', {
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'short',
+                  })}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -383,15 +321,11 @@ export default function CartPage() {
               disabled={!pickupDate}
             >
               <option value="">시간을 선택하세요</option>
-              {(() => {
-                const times = generateTimeSlots();
-                console.log('렌더링 중 시간 옵션 생성:', times);
-                return times.map((time) => (
-                  <option key={time} value={time}>
-                    {time}
-                  </option>
-                ));
-              })()}
+              {generateTimeSlots().map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
             </select>
           </div>
         </div>

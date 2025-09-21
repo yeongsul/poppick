@@ -18,9 +18,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               url: '/mockServiceWorker.js',
             },
           });
-          console.log('✅ MSW started successfully');
         } catch (error) {
-          console.error('❌ Failed to start MSW:', error);
         }
       }
       setReady(true);

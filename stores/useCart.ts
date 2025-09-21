@@ -17,8 +17,6 @@ type CartState = {
   clear: () => void;
   getTotalPrice: () => number;
   getItemCount: () => number;
-  // 디버깅용 메서드 추가
-  debugStorage: () => void;
 };
 
 export const useCart = create<CartState>()(
@@ -97,16 +95,6 @@ export const useCart = create<CartState>()(
         return items.reduce((total, item) => total + item.qty, 0);
       },
 
-      debugStorage: () => {
-        const state = get();
-        console.log('=== 장바구니 디버그 정보 ===');
-        console.log('현재 상태:', state);
-        console.log('로컬 스토리지:', localStorage.getItem('poppick-cart'));
-        console.log('총 상품 수:', state.items.length);
-        console.log('총 금액:', state.getTotalPrice());
-        console.log('팝업스토어 ID:', state.popupStoreId);
-        console.log('========================');
-      },
     }),
     {
       name: 'poppick-cart', // 로컬 스토리지 키 이름
