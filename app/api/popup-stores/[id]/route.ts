@@ -48,6 +48,15 @@ const popupStores = [
   },
 ];
 
-export async function GET() {
-  return NextResponse.json(popupStores);
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const store = popupStores.find(s => s.id === params.id);
+
+  if (!store) {
+    return NextResponse.json({ error: 'Store not found' }, { status: 404 });
+  }
+
+  return NextResponse.json(store);
 }

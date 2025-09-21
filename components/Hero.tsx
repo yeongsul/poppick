@@ -12,7 +12,7 @@ export default function Hero() {
       <div
         className="relative h-96 sm:h-[500px] lg:h-[600px] bg-cover bg-center bg-no-repeat rounded-b-2xl"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&fit=crop&q=80')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&fit=crop&q=80&sat=-25')`,
         }}
       >
         {/* 오버레이 */}
