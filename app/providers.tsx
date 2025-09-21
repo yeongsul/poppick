@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     const initMSW = async () => {
-      if (process.env.NEXT_PUBLIC_MSW === 'enabled') {
+      if (process.env.NEXT_PUBLIC_MSW === 'enabled' && typeof window !== 'undefined') {
         try {
           const { worker } = await import('@/mocks/browser');
           await worker.start({
@@ -17,8 +17,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             serviceWorker: {
               url: '/mockServiceWorker.js',
             },
+            quiet: true,
           });
         } catch (error) {
+          // MSW 실패 시에도 앱이 정상 작동하도록
         }
       }
       setReady(true);
