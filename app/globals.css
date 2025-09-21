@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light;
+  --color-primary: #E90064;
+  --color-accent:  #060047;
+  --color-bgsoft:  #F7F7F9;
+  --color-ink:     #111114;
+}
+
+.container { @apply max-w-5xl mx-auto px-4; }
+/* 공통 카드/버튼/배지 */
+.card{ @apply bg-white rounded-2xl shadow-card; }
+.btn{ @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium transition-colors; }
+.btn-primary{ background: var(--color-primary); color:#fff; }
+.btn-primary:hover{ filter: brightness(0.95); }
+.btn-accent{ background: var(--color-accent); color:#fff; }
+.btn-accent:hover{ filter: brightness(1.05); }
+.badge{ @apply inline-flex items-center px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-700; }
+
+/* 탭 언더라인(활성) */
+.tab-underline-active{
+  position: relative;
+}
+.tab-underline-active::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-1px;
+  height:2px; background: var(--color-primary); border-radius:9999px;
+}
+
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;   /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+}
+
+/* 그라데이션(선택) */
+.grad-primary{ background: linear-gradient(135deg, #E90064 0%, #ff2e7a 100%); color:#fff; }
