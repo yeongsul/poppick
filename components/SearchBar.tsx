@@ -11,7 +11,7 @@ export default function SearchBar({
   value,
   onChange,
   onSubmit,
-  placeholder = '2023 THE COLOR RUN',
+  placeholder = '당신의 마음에 드는 팝업스토어를 검색해보세요!',
 }: Props) {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,404 +1,260 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useCart } from '@/stores/useCart';
-import { usePopupStore, useProduct, useCreateOrder, useOrders } from '@/src/hooks/queries';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
+import { ClockIcon, MapPinIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 
-export default function CartPage() {
-  const cart = useCart();
-  const [pickupDate, setPickupDate] = useState('');
-  const [pickupTime, setPickupTime] = useState('');
-  const [isOrdering, setIsOrdering] = useState(false);
-  const [orderId, setOrderId] = useState<string | null>(null);
+interface Order {
+  id: string;
+  date: string;
+  status: 'pending' | 'confirmed' | 'ready' | 'completed' | 'cancelled';
+  items: {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }[];
+  store: {
+    name: string;
+    location: string;
+  };
+  pickupDate: string;
+  pickupTime: string;
+  total: number;
+}
 
-  const { data: store } = usePopupStore(cart.popupStoreId || undefined);
-  const { data: orders } = useOrders();
-  const createOrder = useCreateOrder();
+export default function OrdersPage() {
+  const [user, setUser] = useState<any>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const router = useRouter();
 
-  // 픽업 가능한 시간 슬롯 생성 (30분 간격)
-  const generateTimeSlots = useCallback(() => {
-    if (!store) {
-      return [
-        '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-        '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
-        '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
-        '19:00', '19:30'
-      ];
-    }
-
-    const slots = [];
-    const start = parseInt(store.operatingHours.start.split(':')[0]);
-    const end = parseInt(store.operatingHours.end.split(':')[0]);
-
-    // 오늘 날짜인지 확인
-    const today = new Date().toISOString().split('T')[0];
-    const isToday = pickupDate === today;
-
-    let currentTime = 0;
-    if (isToday) {
-      // 오늘 날짜인 경우에만 현재 시간을 고려
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      currentTime = currentHour * 60 + currentMinute; // 분 단위로 변환
-    }
-
-
-    for (let hour = start; hour < end; hour++) {
-      // 00분 슬롯
-      const slot00 = hour * 60; // 분 단위로 변환
-      if (!isToday || slot00 > currentTime) {
-        slots.push(`${hour.toString().padStart(2, '0')}:00`);
-      }
-
-      // 30분 슬롯
-      const slot30 = hour * 60 + 30; // 분 단위로 변환
-      if (!isToday || slot30 > currentTime) {
-        slots.push(`${hour.toString().padStart(2, '0')}:30`);
-      }
-    }
-
-    return slots;
-  }, [store, pickupDate]);
-
-  // 픽업 가능한 날짜 생성 (현재 날짜 기준으로 동적 생성)
-  const generateAvailableDates = useCallback(() => {
-    if (!store) {
-      const dates = [];
-      const today = new Date();
-      for (let i = 0; i < 7; i++) {
-        const date = new Date(today);
-        date.setDate(today.getDate() + i);
-        dates.push(date.toISOString().split('T')[0]);
-      }
-      return dates;
-    }
-
-    const dates = [];
-    const today = new Date();
-
-    // 팝업스토어가 이미 종료된 경우, 현재 날짜부터 30일간 제공
-    // 팝업스토어가 진행 중인 경우, 현재 날짜부터 종료일까지 제공
-    const endDate = new Date(store.endDate);
-    const isStoreEnded = endDate < today;
-
-    let availableEndDate;
-    if (isStoreEnded) {
-      // 스토어가 종료된 경우, 현재 날짜부터 30일간
-      availableEndDate = new Date(today);
-      availableEndDate.setDate(today.getDate() + 30);
-    } else {
-      // 스토어가 진행 중인 경우, 종료일까지
-      availableEndDate = endDate;
-    }
-
-
-    // 오늘부터 availableEndDate까지 날짜 생성
-    for (
-      let d = new Date(today);
-      d <= availableEndDate;
-      d.setDate(d.getDate() + 1)
-    ) {
-      dates.push(d.toISOString().split('T')[0]);
-    }
-
-    return dates;
-  }, [store]);
-
-
-  // 날짜가 변경될 때 시간 선택 초기화
   useEffect(() => {
-    if (pickupDate) {
-      setPickupTime('');
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      router.push('/login');
+      return;
     }
-  }, [pickupDate]);
+    setUser(JSON.parse(userData));
 
-  const handleOrder = async () => {
-    if (!store || !pickupDate || !pickupTime || cart.items.length === 0) return;
+    // 샘플 주문 데이터
+    const sampleOrders: Order[] = [
+      {
+        id: 'order-001',
+        date: '2025-09-20T14:30:00Z',
+        status: 'confirmed',
+        items: [
+          {
+            id: 'pp-hoodie',
+            name: 'PopPick Hoodie',
+            price: 59000,
+            quantity: 1,
+            image: '/img/hoodie.jpg'
+          },
+          {
+            id: 'pp-tumbler',
+            name: 'Logo Tumbler',
+            price: 29000,
+            quantity: 2,
+            image: '/img/tumbler.jpg'
+          }
+        ],
+        store: {
+          name: '2025 THE COOL RUN',
+          location: '강남구 청담동'
+        },
+        pickupDate: '2025-09-22',
+        pickupTime: '15:00',
+        total: 117000
+      },
+      {
+        id: 'order-002',
+        date: '2025-09-18T10:20:00Z',
+        status: 'completed',
+        items: [
+          {
+            id: 'pp-cookie',
+            name: 'Cookie Box',
+            price: 12000,
+            quantity: 3,
+            image: '/img/cookie.jpg'
+          }
+        ],
+        store: {
+          name: 'Artisan Bakery Seoul',
+          location: '종로구 북촌'
+        },
+        pickupDate: '2025-09-19',
+        pickupTime: '11:30',
+        total: 36000
+      }
+    ];
 
-    setIsOrdering(true);
-    try {
-      const result = await createOrder.mutateAsync({
-        items: cart.items.map((item) => ({
-          productId: item.productId,
-          qty: item.qty,
-        })),
-        popupStoreId: store.id,
-        pickupDate,
-        pickupTime,
-      });
+    setOrders(sampleOrders);
+  }, [router]);
 
-      setOrderId(result.id);
-      cart.clear();
-    } catch (error) {
-      alert('주문에 실패했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsOrdering(false);
+  const getStatusColor = (status: Order['status']) => {
+    switch (status) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'confirmed': return 'bg-blue-100 text-blue-800';
+      case 'ready': return 'bg-green-100 text-green-800';
+      case 'completed': return 'bg-gray-100 text-gray-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
-  if (orderId) {
+  const getStatusText = (status: Order['status']) => {
+    switch (status) {
+      case 'pending': return '주문 대기';
+      case 'confirmed': return '주문 확인';
+      case 'ready': return '픽업 대기';
+      case 'completed': return '완료';
+      case 'cancelled': return '취소';
+      default: return '알 수 없음';
+    }
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('ko-KR', {
+      style: 'currency',
+      currency: 'KRW',
+    }).format(price);
+  };
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  if (!user) {
     return (
-      <main className="space-y-6">
-        <section className="card p-6 text-center">
-          <div className="text-green-600 text-2xl mb-4">✅</div>
-          <h1 className="text-2xl font-bold mb-2">주문이 완료되었습니다!</h1>
-          <p className="text-gray-600 mb-6">주문번호: {orderId}</p>
-          <div className="flex gap-3 justify-center">
-            <Link href="/" className="btn">
-              홈으로
-            </Link>
-            <Link href={`/ticket/${orderId}`} className="btn-primary">
-              QR 티켓 보기
-            </Link>
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="text-gray-600 mt-4">로딩 중...</p>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
     );
   }
 
-  if (cart.items.length === 0) {
-    return (
-      <main className="space-y-6">
-        <h1 className="text-2xl font-bold">주문 내역</h1>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
 
-        {/* 장바구니 링크 */}
-        <section className="card p-4">
-          <Link href="/" className="text-primary hover:underline">
-            ← 쇼핑 계속하기
-          </Link>
-        </section>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          {/* 헤더 */}
+          <div className="bg-primary px-6 py-6">
+            <h1 className="text-2xl font-bold text-white">주문 내역</h1>
+            <p className="text-white/80 mt-1">나의 팝업스토어 주문을 확인하세요</p>
+          </div>
 
-        {/* 주문 내역 목록 */}
-        {orders && orders.length > 0 ? (
-          <section className="space-y-4">
-            {orders.map((order) => (
-              <div key={order.id} className="card p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h2 className="text-lg font-semibold">주문 #{order.id}</h2>
-                    <p className="text-sm text-gray-600">
-                      {new Date(order.createdAt).toLocaleDateString('ko-KR')}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-primary">
-                      {order.totalPrice.toLocaleString()}원
-                    </div>
-                    <div className={`text-sm px-2 py-1 rounded text-white ${
-                      order.status === 'paid' ? 'bg-green-500' :
-                      order.status === 'fulfilled' ? 'bg-blue-500' :
-                      'bg-gray-500'
-                    }`}>
-                      {order.status === 'paid' ? '결제완료' :
-                       order.status === 'fulfilled' ? '픽업완료' : '취소됨'}
-                    </div>
-                  </div>
+          {/* 주문 목록 */}
+          <div className="p-6">
+            {orders.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ShoppingBagIcon className="w-8 h-8 text-gray-400" />
                 </div>
-
-                <div className="border-t pt-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-600">픽업 날짜: </span>
-                      <span>{new Date(order.pickupDate).toLocaleDateString('ko-KR')}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600">픽업 시간: </span>
-                      <span>{order.pickupTime}</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-3">
-                    <span className="text-gray-600 text-sm">주문 상품: </span>
-                    <span className="text-sm">
-                      {order.items.map(item => `${item.productId} (${item.qty}개)`).join(', ')}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 mt-4">
-                  <Link
-                    href={`/ticket/${order.id}`}
-                    className="btn-primary text-sm"
-                  >
-                    QR 티켓 보기
-                  </Link>
-                  {order.status === 'paid' && (
-                    <button className="btn text-sm">
-                      픽업 완료 처리
-                    </button>
-                  )}
-                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">주문 내역이 없습니다</h3>
+                <p className="text-gray-500 mb-6">첫 번째 팝업스토어 쇼핑을 시작해보세요!</p>
+                <button
+                  onClick={() => router.push('/')}
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-primary hover:bg-primary/90 transition-colors"
+                >
+                  쇼핑 시작하기
+                </button>
               </div>
-            ))}
-          </section>
-        ) : (
-          <section className="card p-6 text-center">
-            <h2 className="text-xl font-semibold mb-2">
-              주문 내역이 없습니다
-            </h2>
-            <p className="text-gray-600 mb-4">첫 주문을 해보세요!</p>
-            <Link href="/" className="btn-primary">
-              팝업스토어 둘러보기
-            </Link>
-          </section>
-        )}
-      </main>
-    );
-  }
+            ) : (
+              <div className="space-y-6">
+                {orders.map((order) => (
+                  <div key={order.id} className="border border-gray-200 rounded-xl overflow-hidden">
+                    {/* 주문 헤더 */}
+                    <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="flex items-center space-x-3">
+                            <span className="text-sm font-medium text-gray-900">주문번호: {order.id}</span>
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(order.status)}`}>
+                              {getStatusText(order.status)}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">{formatDate(order.date)}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-gray-900">{formatPrice(order.total)}</p>
+                        </div>
+                      </div>
+                    </div>
 
-  return (
-    <main className="space-y-6">
-      <h1 className="text-2xl font-bold">장바구니</h1>
+                    {/* 주문 상세 */}
+                    <div className="p-6">
+                      {/* 스토어 정보 */}
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                        <MapPinIcon className="w-4 h-4" />
+                        <span>{order.store.name} · {order.store.location}</span>
+                      </div>
 
-      {/* 팝업스토어 정보 */}
-      {store && (
-        <section className="card p-4">
-          <h2 className="font-semibold mb-2">픽업 장소</h2>
-          <div className="text-gray-600">
-            📍 {store.name} | {store.location}
-          </div>
-          <div className="text-sm text-gray-500 mt-1">
-            운영시간: {store.operatingHours.start} - {store.operatingHours.end}
-          </div>
-        </section>
-      )}
+                      {/* 픽업 정보 */}
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
+                        <ClockIcon className="w-4 h-4" />
+                        <span>픽업 예정: {order.pickupDate} {order.pickupTime}</span>
+                      </div>
 
-      {/* 장바구니 상품들 */}
-      <section className="card p-6">
-        <h2 className="font-semibold mb-4">주문 상품</h2>
-        <div className="space-y-4">
-          {cart.items.map((item) => (
-            <CartItemRow key={item.productId} item={item} />
-          ))}
-        </div>
+                      {/* 주문 상품 */}
+                      <div className="space-y-3">
+                        {order.items.map((item, index) => (
+                          <div key={index} className="flex items-center space-x-4">
+                            <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm font-medium text-gray-900">{item.name}</h4>
+                              <p className="text-sm text-gray-600">수량: {item.quantity}개</p>
+                            </div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {formatPrice(item.price * item.quantity)}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
 
-        <div className="border-t pt-4 mt-6">
-          <div className="flex justify-between items-center text-lg font-bold">
-            <span>총 금액</span>
-            <span className="text-primary">
-              {cart.getTotalPrice().toLocaleString()}원
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* 픽업 시간 선택 */}
-      <section className="card p-6">
-        <h2 className="font-semibold mb-4">픽업 시간 선택</h2>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          {/* 날짜 선택 */}
-          <div>
-            <label className="block text-sm font-medium mb-2">픽업 날짜</label>
-            <select
-              value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
-              className="w-full border rounded-xl px-3 py-2"
-            >
-              <option value="">날짜를 선택하세요</option>
-              {generateAvailableDates().map((date) => (
-                <option key={date} value={date}>
-                  {new Date(date).toLocaleDateString('ko-KR', {
-                    month: 'long',
-                    day: 'numeric',
-                    weekday: 'short',
-                  })}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 시간 선택 */}
-          <div>
-            <label className="block text-sm font-medium mb-2">픽업 시간</label>
-            <select
-              value={pickupTime}
-              onChange={(e) => setPickupTime(e.target.value)}
-              className="w-full border rounded-xl px-3 py-2"
-              disabled={!pickupDate}
-            >
-              <option value="">시간을 선택하세요</option>
-              {generateTimeSlots().map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
+                      {/* 액션 버튼 */}
+                      <div className="mt-6 flex space-x-3">
+                        <button
+                          onClick={() => router.push(`/ticket/${order.id}`)}
+                          className="flex-1 bg-primary text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+                        >
+                          픽업 티켓 보기
+                        </button>
+                        {order.status === 'completed' && (
+                          <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                            재주문하기
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-      </section>
-
-      {/* 주문하기 버튼 */}
-      <section className="card p-6">
-        <button
-          onClick={handleOrder}
-          disabled={!pickupDate || !pickupTime || isOrdering}
-          className={`w-full btn-primary ${
-            !pickupDate || !pickupTime || isOrdering
-              ? 'opacity-50 cursor-not-allowed'
-              : ''
-          }`}
-        >
-          {isOrdering ? '주문 처리 중...' : '주문하기'}
-        </button>
-      </section>
-    </main>
-  );
-}
-
-// 장바구니 아이템 행 컴포넌트
-function CartItemRow({ item }: { item: any }) {
-  const cart = useCart();
-  const { data: product } = useProduct(item.productId);
-
-  if (!product) return null;
-
-  return (
-    <div className="flex items-center gap-4">
-      <div className="relative w-16 h-16">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover rounded-lg"
-          unoptimized
-        />
-      </div>
-
-      <div className="flex-1">
-        <h3 className="font-medium">{product.name}</h3>
-        <p className="text-sm text-gray-600">{product.brand}</p>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => cart.updateQuantity(item.productId, item.qty - 1)}
-          className="w-8 h-8 rounded border flex items-center justify-center"
-        >
-          -
-        </button>
-        <span className="w-8 text-center">{item.qty}</span>
-        <button
-          onClick={() => cart.updateQuantity(item.productId, item.qty + 1)}
-          className="w-8 h-8 rounded border flex items-center justify-center"
-        >
-          +
-        </button>
-      </div>
-
-      <div className="text-right">
-        <div className="font-medium">
-          {(item.priceEach * item.qty).toLocaleString()}원
-        </div>
-        <button
-          onClick={() => cart.remove(item.productId)}
-          className="text-sm text-red-600 hover:underline"
-        >
-          삭제
-        </button>
       </div>
     </div>
   );

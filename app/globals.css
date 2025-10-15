@@ -1,12 +1,30 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+@font-face {
+  font-family: 'S-CoreDream-7ExtraBold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-7ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root { color-scheme: light;
-  --color-primary: #E90064;
+  --color-primary: #fe4f41;
+  --color-secondary: #2f57b5;
   --color-accent:  #060047;
   --color-bgsoft:  #F7F7F9;
   --color-ink:     #111114;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'S-CoreDream-7ExtraBold', sans-serif;
 }
 
 .container { @apply max-w-5xl mx-auto px-4; }
@@ -26,7 +44,7 @@
 .tab-underline-active::after{
   content:"";
   position:absolute; left:0; right:0; bottom:-1px;
-  height:2px; background: var(--color-primary); border-radius:9999px;
+  height:2px; background: var(--color-secondary); border-radius:9999px;
 }
 
 @layer utilities {
@@ -37,5 +55,6 @@
   .no-scrollbar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 }
 
-/* 그라데이션(선택) */
-.grad-primary{ background: linear-gradient(135deg, #E90064 0%, #ff2e7a 100%); color:#fff; }
+/* 단색 배경 클래스 */
+.bg-primary-solid{ background: var(--color-primary); color:#fff; }
+.bg-secondary-solid{ background: var(--color-secondary); color:#fff; }

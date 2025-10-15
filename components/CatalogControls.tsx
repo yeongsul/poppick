@@ -42,7 +42,7 @@ export default function CatalogControls({
         <input
           value={keyword}
           onChange={(e) => onKeywordChange(e.target.value)}
-          placeholder="2023 THE COLOR RUN"
+          placeholder="당신의 마음에 드는 팝업스토어를 검색해보세요!"
           className="w-full rounded-xl border px-4 py-2.5 pr-10 outline-none focus:ring-2 focus:ring-accent"
         />
         <button

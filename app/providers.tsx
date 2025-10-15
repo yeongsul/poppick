@@ -31,7 +31,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   if (!ready) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           {/* 로고 애니메이션 */}
           <div className="relative mb-8">
@@ -49,7 +49,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
           {/* 로딩 바 */}
           <div className="w-64 h-1 bg-gray-200 rounded-full mx-auto overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-primary to-purple-500 rounded-full animate-pulse"></div>
+            <div className="h-full bg-primary rounded-full animate-pulse"></div>
           </div>
 
           {/* 서브 텍스트 */}

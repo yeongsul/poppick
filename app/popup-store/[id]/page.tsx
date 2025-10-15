@@ -41,13 +41,43 @@ export default function PopupStoreDetailPage({ params }: Props) {
     });
   };
 
-  const isActive = () => {
-    if (!store) return false;
+  const getStoreStatus = () => {
+    if (!store) return 'closed';
+
     const now = new Date();
-    const start = new Date(store.startDate);
-    const end = new Date(store.endDate);
-    return now >= start && now <= end;
+    const startDate = new Date(store.startDate);
+    const endDate = new Date(store.endDate);
+
+    // 팝업 기간 전
+    if (now < startDate) {
+      return 'upcoming';
+    }
+
+    // 팝업 기간 종료
+    if (now > endDate) {
+      return 'ended';
+    }
+
+    // 운영 시간 체크
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTime = currentHour * 60 + currentMinute;
+
+    const [startHour, startMin] = store.operatingHours.start.split(':').map(Number);
+    const [endHour, endMin] = store.operatingHours.end.split(':').map(Number);
+    const startTime = startHour * 60 + startMin;
+    const endTime = endHour * 60 + endMin;
+
+    // 오늘 운영시간 체크
+    if (currentTime >= startTime && currentTime <= endTime) {
+      return 'open';
+    }
+
+    return 'closed';
   };
+
+  const status = getStoreStatus();
+  const isActive = () => status === 'open';
 
   if (storeLoading) {
     return (
@@ -96,12 +126,22 @@ export default function PopupStoreDetailPage({ params }: Props) {
               <h1 className="text-3xl font-bold">{store.name}</h1>
               <span
                 className={`badge ${
-                  isActive()
+                  status === 'open'
                     ? 'bg-green-500 text-white'
-                    : 'bg-gray-500 text-white'
+                    : status === 'closed'
+                    ? 'bg-gray-500 text-white'
+                    : status === 'upcoming'
+                    ? 'bg-yellow-500 text-white'
+                    : 'bg-red-500 text-white'
                 }`}
               >
-                {isActive() ? '운영중' : '준비중'}
+                {status === 'open'
+                  ? '운영중'
+                  : status === 'closed'
+                  ? '영업종료'
+                  : status === 'upcoming'
+                  ? '오픈 예정'
+                  : '종료됨'}
               </span>
             </div>
             <p className="text-lg mb-2">{store.description}</p>

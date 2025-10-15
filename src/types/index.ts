@@ -14,7 +14,12 @@ export type PopupStore = {
   location: string;
   image: string;
   tags: string[];
-  category: '패션' | '라이프스타일' | '푸드' | '콜라보 굿즈' | '기타';
+  category:
+    | '패션·뷰티'
+    | '푸드·카페'
+    | '리빙·테크'
+    | '컬처(전시·체험)'
+    | '팬덤·스포츠';
   startDate: string; // ISO string
   endDate: string; // ISO string
   operatingHours: {

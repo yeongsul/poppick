@@ -56,10 +56,10 @@ export const products: Product[] = [
   },
   {
     id: 'zen-ceramics',
-    name: '세라믹 명상 그릇',
+    name: '명상 그릇',
     brand: '젠 크래프트',
     image:
-      'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1630396427043-c0fe3fb0d228?w=800&fit=crop&q=80',
     price: 120000,
     tags: ['세라믹', '명상'],
     popupStoreId: 'store-zen-craft',
@@ -161,6 +161,230 @@ export const products: Product[] = [
     price: 320000,
     tags: ['수면', '웰빙'],
     popupStoreId: 'store-mindful-tech',
+  },
+
+  // 더그아웃 마켓 상품들
+  {
+    id: 'dugout-uniform',
+    name: '한정판 홈 유니폼',
+    brand: '더그아웃 마켓',
+    image:
+      'https://images.unsplash.com/photo-1735421924560-5d0393e0f788?w=800&fit=crop&q=80',
+    price: 119000,
+    tags: ['야구굿즈', '유니폼', '한정판'],
+    popupStoreId: 'store-dugout-market',
+  },
+  {
+    id: 'dugout-cap',
+    name: '응원 캡 모자',
+    brand: '더그아웃 마켓',
+    image:
+      'https://images.unsplash.com/photo-1530398257477-3e1b0b0ed605?w=800&fit=crop&q=80',
+    price: 32000,
+    tags: ['야구굿즈', '응원', '모자'],
+    popupStoreId: 'store-dugout-market',
+  },
+  {
+    id: 'dugout-bat',
+    name: '미니 기념 배트',
+    brand: '더그아웃 마켓',
+    image:
+      'https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?w=800&fit=crop&q=80',
+    price: 25000,
+    tags: ['야구굿즈', '기념품', '콜라보'],
+    popupStoreId: 'store-dugout-market',
+  },
+
+  // 토마토 상점 상품들
+  {
+    id: 'tomato-notebook',
+    name: '토마토 고양이 노트',
+    brand: '토마토 상점',
+    image:
+      'https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=800&fit=crop&q=80',
+    price: 8500,
+    tags: ['토마토', '고양이', '문구'],
+    popupStoreId: 'store-tomato-shop',
+  },
+  {
+    id: 'tomato-sticker-set',
+    name: '토마토 스티커 세트',
+    brand: '토마토 상점',
+    image:
+      'https://images.unsplash.com/photo-1577563908411-5f0a4e5e8a01?w=800&fit=crop&q=80',
+    price: 6000,
+    tags: ['토마토', '스티커', '귀여움'],
+    popupStoreId: 'store-tomato-shop',
+  },
+  {
+    id: 'tomato-plush',
+    name: '토마토 고양이 인형',
+    brand: '토마토 상점',
+    image:
+      'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?w=800&fit=crop&q=80',
+    price: 28000,
+    tags: ['토마토', '고양이', '인형'],
+    popupStoreId: 'store-tomato-shop',
+  },
+
+  // 드로잉데이 상품들
+  {
+    id: 'drawing-postcard',
+    name: '일러스트 엽서 세트',
+    brand: '드로잉데이',
+    image:
+      'https://images.unsplash.com/photo-1579541814924-49fef17c5be5?w=800&fit=crop&q=80',
+    price: 12000,
+    tags: ['일러스트', '엽서', '아트상품'],
+    popupStoreId: 'store-drawing-day',
+  },
+  {
+    id: 'drawing-poster',
+    name: '한정판 아트 포스터',
+    brand: '드로잉데이',
+    image:
+      'https://images.unsplash.com/photo-1690609535059-16b0c240be9b?w=800&fit=crop&q=80',
+    price: 25000,
+    tags: ['일러스트', '포스터', '콜라보'],
+    popupStoreId: 'store-drawing-day',
+  },
+  {
+    id: 'drawing-tote-bag',
+    name: '일러스트 에코백',
+    brand: '드로잉데이',
+    image:
+      'https://images.unsplash.com/photo-1610282081854-9c311350beb9?w=800&fit=crop&q=80',
+    price: 18000,
+    tags: ['일러스트', '에코백', '팬굿즈'],
+    popupStoreId: 'store-drawing-day',
+  },
+
+  // 센츠 오브 서울 상품들
+  {
+    id: 'scents-spring-diffuser',
+    name: '봄 향기 디퓨저',
+    brand: '센츠 오브 서울',
+    image:
+      'https://images.unsplash.com/photo-1602874801006-95e952a3dd38?w=800&fit=crop&q=80',
+    price: 45000,
+    tags: ['향기', '디퓨저', '계절별테마'],
+    popupStoreId: 'store-scents-of-seoul',
+  },
+  {
+    id: 'scents-candle-set',
+    name: '서울 시즌 캔들 세트',
+    brand: '센츠 오브 서울',
+    image:
+      'https://images.unsplash.com/photo-1602874801638-f7f7f4e5b022?w=800&fit=crop&q=80',
+    price: 52000,
+    tags: ['향기', '캔들', '감성굿즈'],
+    popupStoreId: 'store-scents-of-seoul',
+  },
+  {
+    id: 'scents-perfume',
+    name: '한강 석양 오드퍼퓸',
+    brand: '센츠 오브 서울',
+    image:
+      'https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&fit=crop&q=80',
+    price: 68000,
+    tags: ['향기', '퍼퓸', '감성굿즈'],
+    popupStoreId: 'store-scents-of-seoul',
+  },
+
+  // 픽셀 아케이드 상품들
+  {
+    id: 'pixel-tshirt',
+    name: '8비트 캐릭터 티셔츠',
+    brand: '픽셀 아케이드',
+    image:
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&fit=crop&q=80',
+    price: 35000,
+    tags: ['게임', '레트로', '굿즈'],
+    popupStoreId: 'store-pixel-arcade',
+  },
+  {
+    id: 'pixel-keychain',
+    name: '픽셀 아트 키링',
+    brand: '픽셀 아케이드',
+    image:
+      'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&fit=crop&q=80',
+    price: 12000,
+    tags: ['게임', '레트로', '키링'],
+    popupStoreId: 'store-pixel-arcade',
+  },
+  {
+    id: 'pixel-poster',
+    name: '클래식 게임 포스터',
+    brand: '픽셀 아케이드',
+    image:
+      'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&fit=crop&q=80',
+    price: 22000,
+    tags: ['게임', '레트로', '포스터'],
+    popupStoreId: 'store-pixel-arcade',
+  },
+
+  // 스위트 스튜디오 상품들
+  {
+    id: 'sweet-macaron-box',
+    name: '디자인 마카롱 박스',
+    brand: '스위트 스튜디오',
+    image:
+      'https://images.unsplash.com/photo-1569864358642-9d1684040f43?w=800&fit=crop&q=80',
+    price: 28000,
+    tags: ['디저트', '마카롱', '한정판매'],
+    popupStoreId: 'store-sweet-studio',
+  },
+  {
+    id: 'sweet-cake',
+    name: '시그니처 케이크',
+    brand: '스위트 스튜디오',
+    image:
+      'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&fit=crop&q=80',
+    price: 45000,
+    tags: ['디저트', '케이크', '디자인'],
+    popupStoreId: 'store-sweet-studio',
+  },
+  {
+    id: 'sweet-cookie-set',
+    name: '아트 쿠키 세트',
+    brand: '스위트 스튜디오',
+    image:
+      'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&fit=crop&q=80',
+    price: 18000,
+    tags: ['디저트', '쿠키', '체험카페'],
+    popupStoreId: 'store-sweet-studio',
+  },
+
+  // 제주 모먼트 상품들
+  {
+    id: 'jeju-candle',
+    name: '제주 감귤 캔들',
+    brand: '제주 모먼트',
+    image:
+      'https://images.unsplash.com/photo-1602874801638-f7f7f4e5b022?w=800&fit=crop&q=80',
+    price: 22000,
+    tags: ['로컬', '제주브랜드', '캔들'],
+    popupStoreId: 'store-jeju-moment',
+  },
+  {
+    id: 'jeju-eco-bag',
+    name: '제주 감성 에코백',
+    brand: '제주 모먼트',
+    image:
+      'https://images.unsplash.com/photo-1590739225024-29c7dc13b7e5?w=800&fit=crop&q=80',
+    price: 15000,
+    tags: ['로컬', '에코백', '감성마켓'],
+    popupStoreId: 'store-jeju-moment',
+  },
+  {
+    id: 'jeju-soap-set',
+    name: '제주 천연 비누 세트',
+    brand: '제주 모먼트',
+    image:
+      'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&fit=crop&q=80',
+    price: 32000,
+    tags: ['로컬', '제주브랜드', '소품샵'],
+    popupStoreId: 'store-jeju-moment',
   },
 ];
 

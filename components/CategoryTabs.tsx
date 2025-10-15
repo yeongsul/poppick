@@ -59,14 +59,14 @@ export default function CategoryTabs({ value, onChange }: Props) {
               <button
                 key={c.slug}
                 onClick={() => onChange(c.slug as Category)}
-                className={`relative pb-2 text-sm whitespace-nowrap ${
+                className={`relative pb-2 text-sm font-semibold whitespace-nowrap ${
                   active ? 'text-ink' : 'text-gray-600'
                 }`}
                 aria-current={active ? 'page' : undefined}
               >
                 {c.label}
                 {active && (
-                  <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-primary rounded-full" />
+                  <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-secondary rounded-full" />
                 )}
               </button>
             );
@@ -83,14 +83,14 @@ export default function CategoryTabs({ value, onChange }: Props) {
               <button
                 key={c.slug}
                 onClick={() => onChange(c.slug as Category)}
-                className={`relative pb-2 text-sm text-center ${
+                className={`relative pb-2 text-sm font-semibold text-center ${
                   active ? 'text-ink' : 'text-gray-600'
                 }`}
                 aria-current={active ? 'page' : undefined}
               >
                 {c.label}
                 {active && (
-                  <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-primary rounded-full" />
+                  <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-secondary rounded-full" />
                 )}
               </button>
             );
