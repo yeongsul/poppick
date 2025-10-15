@@ -262,10 +262,10 @@ npm run start
 - **제목**: S-CoreDream-7ExtraBold (CDN)
 
 ### 컬러 팔레트
-- **Primary**: `#FF2E7A` (PopPick 핑크)
-- **Accent**: `#3B82F6` (액센트 블루)
-- **Success**: `#10B981` (성공 그린)
-- **Warning**: `#F59E0B` (경고 오렌지)
+- **Primary**: `#fe4f41` (코랄 레드)
+- **Secondary**: `#2f57b5` (로얄 블루)
+- **Accent**: `#060047` (미드나잇 블루)
+- **BG Soft**: `#F7F7F9` (라이트 그레이)
 
 ### 반응형 브레이크포인트
 - **Mobile**: `< 640px`
