@@ -249,6 +249,10 @@ export type Order = {
 
 ## 🚦 설치 및 실행
 
+### 데모
+
+- 배포 URL: https://poppick-a98y11pbm-suls-projects-38d800ec.vercel.app/
+
 ### 1. 의존성 설치
 
 ```bash
