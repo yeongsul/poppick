@@ -96,7 +96,7 @@ export default function ProductCard({ item, showAddToCart = false }: Props) {
 
             <button
               onClick={handleAddToCart}
-              className="w-full btn-primary text-sm py-2"
+              className="w-full btn-primary text-sm py-2 rounded-xl"
             >
               장바구니에 추가
             </button>

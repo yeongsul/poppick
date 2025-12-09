@@ -3,7 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
-import { ClockIcon, MapPinIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import {
+  ClockIcon,
+  MapPinIcon,
+  ShoppingBagIcon,
+} from '@heroicons/react/24/outline';
 
 interface Order {
   id: string;
@@ -50,23 +54,23 @@ export default function OrdersPage() {
             name: 'PopPick Hoodie',
             price: 59000,
             quantity: 1,
-            image: '/img/hoodie.jpg'
+            image: '/img/hoodie.jpg',
           },
           {
             id: 'pp-tumbler',
             name: 'Logo Tumbler',
             price: 29000,
             quantity: 2,
-            image: '/img/tumbler.jpg'
-          }
+            image: '/img/tumbler.jpg',
+          },
         ],
         store: {
           name: '2025 THE COOL RUN',
-          location: '강남구 청담동'
+          location: '강남구 청담동',
         },
         pickupDate: '2025-09-22',
         pickupTime: '15:00',
-        total: 117000
+        total: 117000,
       },
       {
         id: 'order-002',
@@ -78,17 +82,17 @@ export default function OrdersPage() {
             name: 'Cookie Box',
             price: 12000,
             quantity: 3,
-            image: '/img/cookie.jpg'
-          }
+            image: '/img/cookie.jpg',
+          },
         ],
         store: {
           name: 'Artisan Bakery Seoul',
-          location: '종로구 북촌'
+          location: '종로구 북촌',
         },
         pickupDate: '2025-09-19',
         pickupTime: '11:30',
-        total: 36000
-      }
+        total: 36000,
+      },
     ];
 
     setOrders(sampleOrders);
@@ -96,23 +100,35 @@ export default function OrdersPage() {
 
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'confirmed': return 'bg-blue-100 text-blue-800';
-      case 'ready': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-gray-100 text-gray-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'confirmed':
+        return 'bg-blue-100 text-blue-800';
+      case 'ready':
+        return 'bg-green-100 text-green-800';
+      case 'completed':
+        return 'bg-gray-100 text-gray-800';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getStatusText = (status: Order['status']) => {
     switch (status) {
-      case 'pending': return '주문 대기';
-      case 'confirmed': return '주문 확인';
-      case 'ready': return '픽업 대기';
-      case 'completed': return '완료';
-      case 'cancelled': return '취소';
-      default: return '알 수 없음';
+      case 'pending':
+        return '주문 대기';
+      case 'confirmed':
+        return '주문 확인';
+      case 'ready':
+        return '픽업 대기';
+      case 'completed':
+        return '완료';
+      case 'cancelled':
+        return '취소';
+      default:
+        return '알 수 없음';
     }
   };
 
@@ -130,7 +146,7 @@ export default function OrdersPage() {
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -157,7 +173,9 @@ export default function OrdersPage() {
           {/* 헤더 */}
           <div className="bg-primary px-6 py-6">
             <h1 className="text-2xl font-bold text-white">주문 내역</h1>
-            <p className="text-white/80 mt-1">나의 팝업스토어 주문을 확인하세요</p>
+            <p className="text-white/80 mt-1">
+              나의 팝업스토어 주문을 확인하세요
+            </p>
           </div>
 
           {/* 주문 목록 */}
@@ -167,8 +185,12 @@ export default function OrdersPage() {
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <ShoppingBagIcon className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">주문 내역이 없습니다</h3>
-                <p className="text-gray-500 mb-6">첫 번째 팝업스토어 쇼핑을 시작해보세요!</p>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  주문 내역이 없습니다
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  첫 번째 팝업스토어 쇼핑을 시작해보세요!
+                </p>
                 <button
                   onClick={() => router.push('/')}
                   className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-primary hover:bg-primary/90 transition-colors"
@@ -179,21 +201,34 @@ export default function OrdersPage() {
             ) : (
               <div className="space-y-6">
                 {orders.map((order) => (
-                  <div key={order.id} className="border border-gray-200 rounded-xl overflow-hidden">
+                  <div
+                    key={order.id}
+                    className="border border-gray-200 rounded-xl overflow-hidden"
+                  >
                     {/* 주문 헤더 */}
                     <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="flex items-center space-x-3">
-                            <span className="text-sm font-medium text-gray-900">주문번호: {order.id}</span>
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(order.status)}`}>
+                            <span className="text-sm font-medium text-gray-900">
+                              주문번호: {order.id}
+                            </span>
+                            <span
+                              className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(
+                                order.status,
+                              )}`}
+                            >
                               {getStatusText(order.status)}
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1">{formatDate(order.date)}</p>
+                          <p className="text-sm text-gray-600 mt-1">
+                            {formatDate(order.date)}
+                          </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-gray-900">{formatPrice(order.total)}</p>
+                          <p className="text-lg font-bold text-gray-900">
+                            {formatPrice(order.total)}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -203,29 +238,48 @@ export default function OrdersPage() {
                       {/* 스토어 정보 */}
                       <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
                         <MapPinIcon className="w-4 h-4" />
-                        <span>{order.store.name} · {order.store.location}</span>
+                        <span>
+                          {order.store.name} · {order.store.location}
+                        </span>
                       </div>
 
                       {/* 픽업 정보 */}
                       <div className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
                         <ClockIcon className="w-4 h-4" />
-                        <span>픽업 예정: {order.pickupDate} {order.pickupTime}</span>
+                        <span>
+                          픽업 예정: {order.pickupDate} {order.pickupTime}
+                        </span>
                       </div>
 
                       {/* 주문 상품 */}
                       <div className="space-y-3">
                         {order.items.map((item, index) => (
-                          <div key={index} className="flex items-center space-x-4">
+                          <div
+                            key={index}
+                            className="flex items-center space-x-4"
+                          >
                             <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                               <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                                <svg
+                                  className="w-6 h-6"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                    clipRule="evenodd"
+                                  />
                                 </svg>
                               </div>
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h4 className="text-sm font-medium text-gray-900">{item.name}</h4>
-                              <p className="text-sm text-gray-600">수량: {item.quantity}개</p>
+                              <h4 className="text-sm font-medium text-gray-900">
+                                {item.name}
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                수량: {item.quantity}개
+                              </p>
                             </div>
                             <div className="text-sm font-medium text-gray-900">
                               {formatPrice(item.price * item.quantity)}

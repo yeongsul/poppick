@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { usePopupStore, useStoreProducts } from '@/src/hooks/queries';
 import { useCart } from '@/stores/useCart';
 import ProductCard from '@/components/ProductCard';
@@ -15,6 +16,7 @@ export default function PopupStoreDetailPage({ params }: Props) {
   const { id } = params;
   const { data: store, isLoading: storeLoading } = usePopupStore(id);
   const { data: products, isLoading: productsLoading } = useStoreProducts(id);
+  const router = useRouter();
   const cart = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [showMessage, setShowMessage] = useState<string | null>(null);
@@ -63,7 +65,9 @@ export default function PopupStoreDetailPage({ params }: Props) {
     const currentMinute = now.getMinutes();
     const currentTime = currentHour * 60 + currentMinute;
 
-    const [startHour, startMin] = store.operatingHours.start.split(':').map(Number);
+    const [startHour, startMin] = store.operatingHours.start
+      .split(':')
+      .map(Number);
     const [endHour, endMin] = store.operatingHours.end.split(':').map(Number);
     const startTime = startHour * 60 + startMin;
     const endTime = endHour * 60 + endMin;
@@ -255,12 +259,15 @@ export default function PopupStoreDetailPage({ params }: Props) {
             </div>
 
             <div className="flex gap-3">
-              <button onClick={() => cart.clear()} className="btn flex-1">
+              <button
+                onClick={() => cart.clear()}
+                className="btn flex-1 rounded-xl"
+              >
                 장바구니 비우기
               </button>
               <button
-                onClick={() => (window.location.href = '/orders')}
-                className="btn-primary flex-1"
+                onClick={() => router.push('/cart')}
+                className="btn-primary flex-1 rounded-xl"
               >
                 주문하기
               </button>

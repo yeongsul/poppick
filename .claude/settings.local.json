@@ -5,7 +5,8 @@
       "Bash(npm run lint)",
       "Bash(npm run dev)",
       "Bash(tree:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nFeature: 포트폴리오 기능 개선 및 UI/UX 향상\n\n주요 변경사항:\n- API Routes를 mock 데이터 import 방식으로 전환\n- Hero 섹션 자동 회전 캐러셀 구현 (5초 간격)\n- 한글 폰트 적용 (Pretendard, S-CoreDream)\n- 모든 팝업스토어에 제품 데이터 추가\n- 운영 상태 로직 개선 (날짜 + 운영시간 체크)\n- 설정 페이지 개선 (데모 기능 명시)\n- 새로운 페이지 추가 (장바구니, 로그인, 프로필, 설정)\n- public 이미지 폴더 구조 생성\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

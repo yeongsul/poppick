@@ -71,14 +71,14 @@ export const products: Product[] = [
     name: '태양광 보조배터리',
     brand: '에코 퓨처',
     image:
-      'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&fit=crop&q=80',
     price: 89000,
     tags: ['태양광', '친환경'],
     popupStoreId: 'store-eco-future',
   },
   {
     id: 'eco-bamboo-speaker',
-    name: '대나무 블루투스 스피커',
+    name: '재활용 플라스틱 블루투스 스피커',
     brand: '에코 퓨처',
     image:
       'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&fit=crop&q=80',
@@ -135,7 +135,7 @@ export const products: Product[] = [
     name: '한정 아트 프린트',
     brand: '어반 빈티지',
     image:
-      'https://images.unsplash.com/photo-1506629905312-8d4e9a51ed76?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&fit=crop&q=80',
     price: 75000,
     tags: ['아트', '한정판'],
     popupStoreId: 'store-urban-vintage',
@@ -157,7 +157,7 @@ export const products: Product[] = [
     name: '수면 최적화 링',
     brand: '마인드풀 테크',
     image:
-      'https://images.unsplash.com/photo-1571390295919-a97e1ba8455a?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&fit=crop&q=80',
     price: 320000,
     tags: ['수면', '웰빙'],
     popupStoreId: 'store-mindful-tech',
@@ -211,7 +211,7 @@ export const products: Product[] = [
     name: '토마토 스티커 세트',
     brand: '토마토 상점',
     image:
-      'https://images.unsplash.com/photo-1577563908411-5f0a4e5e8a01?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?w=800&fit=crop&q=80',
     price: 6000,
     tags: ['토마토', '스티커', '귀여움'],
     popupStoreId: 'store-tomato-shop',
@@ -265,7 +265,7 @@ export const products: Product[] = [
     name: '봄 향기 디퓨저',
     brand: '센츠 오브 서울',
     image:
-      'https://images.unsplash.com/photo-1602874801006-95e952a3dd38?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&fit=crop&q=80',
     price: 45000,
     tags: ['향기', '디퓨저', '계절별테마'],
     popupStoreId: 'store-scents-of-seoul',
@@ -275,7 +275,7 @@ export const products: Product[] = [
     name: '서울 시즌 캔들 세트',
     brand: '센츠 오브 서울',
     image:
-      'https://images.unsplash.com/photo-1602874801638-f7f7f4e5b022?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&fit=crop&q=80',
     price: 52000,
     tags: ['향기', '캔들', '감성굿즈'],
     popupStoreId: 'store-scents-of-seoul',
@@ -361,7 +361,7 @@ export const products: Product[] = [
     name: '제주 감귤 캔들',
     brand: '제주 모먼트',
     image:
-      'https://images.unsplash.com/photo-1602874801638-f7f7f4e5b022?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&fit=crop&q=80',
     price: 22000,
     tags: ['로컬', '제주브랜드', '캔들'],
     popupStoreId: 'store-jeju-moment',
@@ -371,7 +371,7 @@ export const products: Product[] = [
     name: '제주 감성 에코백',
     brand: '제주 모먼트',
     image:
-      'https://images.unsplash.com/photo-1590739225024-29c7dc13b7e5?w=800&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&fit=crop&q=80',
     price: 15000,
     tags: ['로컬', '에코백', '감성마켓'],
     popupStoreId: 'store-jeju-moment',

@@ -7,6 +7,7 @@ import {
   useCreateOrder,
   useOrders,
 } from '@/src/hooks/queries';
+import { useCart } from '@/stores/useCart';
 import SlotPicker from '@/components/SlotPicker';
 import Link from 'next/link';
 
@@ -20,10 +21,12 @@ export default function ProductDetailPage({
   const { data: slots, isLoading: loadingS } = useTimeslots(id);
   const createOrder = useCreateOrder();
   const { refetch: refetchOrders } = useOrders();
+  const cart = useCart();
 
   const [qty, setQty] = useState(1);
   const [slotId, setSlotId] = useState<string | undefined>(undefined);
   const [orderId, setOrderId] = useState<string | null>(null);
+  const [cartMessage, setCartMessage] = useState<string | null>(null);
 
   const canOrder = useMemo(
     () => !!product && !!slotId && qty > 0,
@@ -67,6 +70,33 @@ export default function ProductDetailPage({
     });
     setOrderId(res.id);
     await refetchOrders();
+  };
+
+  const handleAddToCart = () => {
+    const result = cart.add({
+      productId: product.id,
+      qty,
+      priceEach: product.price,
+      popupStoreId: product.popupStoreId,
+    });
+
+    if (result.success) {
+      setCartMessage('장바구니에 담았습니다');
+      setTimeout(() => setCartMessage(null), 1800);
+      return;
+    }
+
+    if (window.confirm(result.message)) {
+      cart.clear();
+      cart.add({
+        productId: product.id,
+        qty,
+        priceEach: product.price,
+        popupStoreId: product.popupStoreId,
+      });
+      setCartMessage('장바구니에 담았습니다');
+      setTimeout(() => setCartMessage(null), 1800);
+    }
   };
 
   return (
@@ -115,6 +145,10 @@ export default function ProductDetailPage({
           {createOrder.isPending ? '예약 생성 중…' : '예약 & 주문 생성'}
         </button>
 
+        <button onClick={handleAddToCart} className="btn">
+          장바구니 담기
+        </button>
+
         <Link href="/orders" className="btn">
           내 주문내역 보기
         </Link>
@@ -125,6 +159,12 @@ export default function ProductDetailPage({
           </Link>
         )}
       </section>
+
+      {cartMessage && (
+        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg">
+          {cartMessage}
+        </div>
+      )}
     </main>
   );
 }
