@@ -47,16 +47,16 @@
 
 ### Frontend
 
-- **Next.js 14** (App Router) - 최신 React 프레임워크
-- **TypeScript** - 타입 안전성과 개발 생산성 향상
-- **Tailwind CSS** - 유틸리티 퍼스트 CSS 프레임워크
-- **Heroicons** - 일관성 있는 아이콘 시스템
+- **Next.js 14** (App Router)
+- **TypeScript** 
+- **Tailwind CSS**
+- **Heroicons**
 
 ### 상태 관리
 
-- **Zustand** - 경량화된 상태 관리 (장바구니, 사용자 설정)
-- **TanStack React Query** - 서버 상태 관리 및 캐싱
-- **MSW (Mock Service Worker)** - API 모킹 (선택적)
+- **Zustand** 
+- **TanStack React Query**
+- **MSW (Mock Service Worker)**
 
 ### API & 데이터
 
@@ -347,7 +347,7 @@ npm run start
 - [ ] **다국어 지원** (영어, 일본어)
 - [ ] **다크모드 지원**
 
-## 📞 개발자 정보
+## 프로젝트 관련 정보
 
 **포트폴리오 목적으로 개발된 프로젝트입니다.**
 
